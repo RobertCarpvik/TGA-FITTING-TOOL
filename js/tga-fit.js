@@ -1,59 +1,86 @@
 // ====== Shopify routing/filters (verified from your URLs) ======
 console.log("TGA FIT JS LOADED");
 
-const AVAILABLE = {
-  klubbtyp: ["Driver", "Fairway Wood", "Hybrid", "Järnset", "Wedge", "Putter"],
-  fattning: ["Höger", "Vänster"],
-  gender: ["Herr", "Dam"],
-  niva: ["Nybörjare", "Medel"], // ex: Avancerad saknas
-  spel: [
-    "Förlåtande (hjälp vid missar)",
-    "Träffsäkerhet (rakare slag)"
-  ],
-  swingHerr: ["Låg", "Medel"] // ex: inga Hög ännu
-};
 
-function filterOptionsForStep(step) {
+
+function isCombinationValid() {
+  if (!AVAILABLE.klubbtyp.includes(values.klubbtyp)) return false;
+  if (!AVAILABLE.fattning.includes(values.fattning)) return false;
+  if (!AVAILABLE.niva.includes(values.niva)) return false;
+  if (!AVAILABLE.spel.includes(values.spel)) return false;
+
+  if (values.gender === "Herr") {
+    const swingValid = Object.values(SWING_TO_FLEX_HERR)
+      .flat()
+      .some(f => values.flexList?.includes(f));
+    if (!swingValid) return false;
+  }
+
+  return true;
+}
+
+function buildTestUrl(testKey, testValue) {
+  const p = new URLSearchParams();
+  const temp = { ...values, [testKey]: testValue };
+
+  if (temp.klubbtyp) p.set(FILTER_KEYS.klubbtyp, temp.klubbtyp);
+  if (temp.fattning) p.set(FILTER_KEYS.fattning, temp.fattning);
+  if (temp.niva)     p.set(FILTER_KEYS.niva, temp.niva);
+  if (temp.spel)     p.set(FILTER_KEYS.spel, temp.spel);
+
+  if (temp.gender === "Herr" && Array.isArray(temp.flexList)) {
+    temp.flexList.forEach(f => p.append(FILTER_KEYS.flex, f));
+  }
+
+  p.set(FILTER_KEYS.sortBy, "best-selling");
+
+  return `${BASE_COLLECTION}?${p.toString()}`;
+}
+
+async function shopifyHasResults(url) {
+  const res = await fetch(url, { method: "GET" });
+  const html = await res.text();
+
+  // Anpassa om ditt tema använder annan text
+  return !html.includes("Inga produkter hittades");
+}
+
+
+
+async function filterOptionsForStep(step) {
   const stepEl = document.querySelector(`.tga-step[data-step="${step}"]`);
   if (!stepEl) return;
 
   const buttons = stepEl.querySelectorAll(".tga-opt");
 
-  buttons.forEach(btn => {
+  let key;
+  if (step === 1) key = "klubbtyp";
+  if (step === 2) key = "fattning";
+  if (step === 3) key = "gender";
+  if (step === 4) key = "niva";
+  if (step === 5) key = "spel";
+
+  if (!key) return;
+
+  for (const btn of buttons) {
     const value = btn.textContent.trim();
-    let allowed = true;
 
-    if (step === 1) {
-      allowed = AVAILABLE.klubbtyp.includes(value);
+    btn.disabled = true;
+    btn.classList.add("tga-opt--disabled");
+
+    const testUrl = buildTestUrl(key, value);
+    const hasResults = await shopifyHasResults(testUrl);
+
+    if (hasResults) {
+      btn.disabled = false;
+      btn.classList.remove("tga-opt--disabled");
     }
-
-    if (step === 2) {
-      allowed = AVAILABLE.fattning.includes(value);
-    }
-
-    if (step === 3) {
-      allowed = AVAILABLE.gender.includes(value);
-    }
-
-    if (step === 4) {
-      allowed = AVAILABLE.niva.includes(value);
-    }
-
-    if (step === 5) {
-      allowed = AVAILABLE.spel.includes(value);
-    }
-
-    if (step === 6 && values.gender === "Herr") {
-      allowed = AVAILABLE.swingHerr.includes(value);
-    }
-
-    btn.disabled = !allowed;
-    btn.classList.toggle("tga-opt--disabled", !allowed);
-  });
+  }
 }
 
 
-function showStep(n){
+
+async function showStep(n){
   document.querySelectorAll(".tga-step").forEach(el =>
     el.classList.add("hidden")
   );
@@ -62,9 +89,11 @@ function showStep(n){
   if (el) el.classList.remove("hidden");
 
   currentStep = n;
-  filterOptionsForStep(n);
   updateSummary();
+
+  await filterOptionsForStep(n);
 }
+
 
 const BASE_COLLECTION = "/collections/golfklubbor";
   const FILTER_KEYS = {
@@ -88,13 +117,15 @@ const BASE_COLLECTION = "/collections/golfklubbor";
   const values = {}; // klubbtyp, fattning, gender, niva, spel, flexList
   let currentStep = 1;
 
+  /* 
   function showStep(n){
     document.querySelectorAll(".tga-step").forEach(el => el.classList.add("hidden"));
     const el = document.querySelector(`.tga-step[data-step="${n}"]`);
     if (el) el.classList.remove("hidden");
     currentStep = n;
     updateSummary();
-  }
+  } 
+  */
 
   function restart(){
     for (const k in values) delete values[k];
