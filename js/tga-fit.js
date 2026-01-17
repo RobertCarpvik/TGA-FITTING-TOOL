@@ -1,6 +1,70 @@
 // ====== Shopify routing/filters (verified from your URLs) ======
 console.log("TGA FIT JS LOADED");
- 
+
+const AVAILABLE = {
+  klubbtyp: ["Driver", "Fairway Wood", "Hybrid", "Järnset", "Wedge", "Putter"],
+  fattning: ["Höger", "Vänster"],
+  gender: ["Herr", "Dam"],
+  niva: ["Nybörjare", "Medel"], // ex: Avancerad saknas
+  spel: [
+    "Förlåtande (hjälp vid missar)",
+    "Träffsäkerhet (rakare slag)"
+  ],
+  swingHerr: ["Låg", "Medel"] // ex: inga Hög ännu
+};
+
+function filterOptionsForStep(step) {
+  const stepEl = document.querySelector(`.tga-step[data-step="${step}"]`);
+  if (!stepEl) return;
+
+  const buttons = stepEl.querySelectorAll(".tga-opt");
+
+  buttons.forEach(btn => {
+    const value = btn.textContent.trim();
+    let allowed = true;
+
+    if (step === 1) {
+      allowed = AVAILABLE.klubbtyp.includes(value);
+    }
+
+    if (step === 2) {
+      allowed = AVAILABLE.fattning.includes(value);
+    }
+
+    if (step === 3) {
+      allowed = AVAILABLE.gender.includes(value);
+    }
+
+    if (step === 4) {
+      allowed = AVAILABLE.niva.includes(value);
+    }
+
+    if (step === 5) {
+      allowed = AVAILABLE.spel.includes(value);
+    }
+
+    if (step === 6 && values.gender === "Herr") {
+      allowed = AVAILABLE.swingHerr.includes(value);
+    }
+
+    btn.disabled = !allowed;
+    btn.classList.toggle("tga-opt--disabled", !allowed);
+  });
+}
+
+
+function showStep(n){
+  document.querySelectorAll(".tga-step").forEach(el =>
+    el.classList.add("hidden")
+  );
+
+  const el = document.querySelector(`.tga-step[data-step="${n}"]`);
+  if (el) el.classList.remove("hidden");
+
+  currentStep = n;
+  filterOptionsForStep(n);
+  updateSummary();
+}
 
 const BASE_COLLECTION = "/collections/golfklubbor";
   const FILTER_KEYS = {
