@@ -1,5 +1,8 @@
 // ====== Shopify routing/filters (verified from your URLs) ======
-  const BASE_COLLECTION = "/collections/golfklubbor";
+console.log("TGA FIT JS LOADED");
+ 
+
+const BASE_COLLECTION = "/collections/golfklubbor";
   const FILTER_KEYS = {
     klubbtyp: "filter.p.m.custom.klubbtyp",
     fattning: "filter.p.m.custom.fattning",
