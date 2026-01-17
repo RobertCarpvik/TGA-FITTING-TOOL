@@ -115,5 +115,6 @@
     }[s]));
   }
 
-  // Init
+document.addEventListener("DOMContentLoaded", () => {
   showStep(1);
+});
