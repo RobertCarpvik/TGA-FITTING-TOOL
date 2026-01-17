@@ -115,13 +115,15 @@
     }[s]));
   }
 
-document.addEventListener("DOMContentLoaded", () => {
-  showStep(1);
-});
-
 // Expose functions for inline onclick handlers
 window.setValue = setValue;
 window.setGender = setGender;
 window.setNiva = setNiva;
 window.setSwing = setSwing;
 window.restart = restart;
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  showStep(1);
+});
+
