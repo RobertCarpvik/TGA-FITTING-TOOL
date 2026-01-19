@@ -1,7 +1,19 @@
 // ====== Shopify routing/filters (verified from your URLs) ======
 console.log("TGA FIT JS LOADED");
 
-
+fetch("/apps/log-finder-search", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    klubbtyp: values.klubbtyp,
+    fattning: values.fattning,
+    gender: values.gender,
+    niva: values.niva,
+    spel: values.spel,
+    flex: values.flexList,
+    hadResults: true // eller false om du mäter det
+  })
+}).catch(() => {});
 
 function isCombinationValid() {
   if (!AVAILABLE.klubbtyp.includes(values.klubbtyp)) return false;
