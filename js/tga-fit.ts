@@ -19,6 +19,7 @@ function isCombinationValid() {
   return true;
 }
 
+/*
 function buildTestUrl(testKey, testValue) {
   const p = new URLSearchParams();
   const temp = { ...values, [testKey]: testValue };
@@ -36,17 +37,19 @@ function buildTestUrl(testKey, testValue) {
 
   return `${BASE_COLLECTION}?${p.toString()}`;
 }
+*/
 
+/*Ä
 async function shopifyHasResults(url) {
   const res = await fetch(url, { method: "GET" });
   const html = await res.text();
 
   // Anpassa om ditt tema använder annan text
   return !html.includes("Inga produkter hittades");
-}
+}*/
 
 
-
+/*
 async function filterOptionsForStep(step) {
   const stepEl = document.querySelector(`.tga-step[data-step="${step}"]`);
   if (!stepEl) return;
@@ -77,10 +80,11 @@ async function filterOptionsForStep(step) {
     }
   }
 }
+*/
 
 
 
-async function showStep(n){
+function showStep(n){
   document.querySelectorAll(".tga-step").forEach(el =>
     el.classList.add("hidden")
   );
@@ -90,8 +94,6 @@ async function showStep(n){
 
   currentStep = n;
   updateSummary();
-
-  await filterOptionsForStep(n);
 }
 
 
