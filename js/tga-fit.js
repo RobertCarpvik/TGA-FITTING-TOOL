@@ -183,28 +183,37 @@ const BASE_COLLECTION = "/collections/golfklubbor";
     return `${BASE_COLLECTION}?${p.toString()}`;
   }
 
-  function redirectToResults(){
+  function redirectToResults() {
+  const payload = JSON.stringify({
+    klubbtyp: values.klubbtyp,
+    fattning: values.fattning,
+    gender: values.gender,
+    niva: values.niva,
+    spel: values.spel,
+    flex: values.flexList,
+    hadResults: true
+  });
 
-  fetch("https://tga-fitting-tool.vercel.app/api/log-search", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      klubbtyp: values.klubbtyp,
-      fattning: values.fattning,
-      gender: values.gender,
-      niva: values.niva,
-      spel: values.spel,
-      flex: values.flexList,
-      hadResults: true
-    })
-  })
-  .then(res => {
-  })
+  // 🔹 Logga utan att blockera redirect
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(
+      "https://tga-fitting-tool.vercel.app/api/log-search",
+      payload
+    );
+  } else {
+    // fallback (äldre browsers)
+    fetch("https://tga-fitting-tool.vercel.app/api/log-search", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: payload,
+      keepalive: true
+    }).catch(() => {});
+  }
 
-
-  // kommentera bort redirect tillfälligt
-  // window.location.href = buildUrl();
+  // 🔹 Redirect direkt
+  window.location.href = buildUrl();
 }
+
 
 
   function updateSummary(){
