@@ -1,5 +1,5 @@
 // ====== Shopify routing/filters (verified from your URLs) ======
-console.log("TGA FIT JS LOADED");
+console.log("TGA FIT JS LOADED NOW");
 
 
 
