@@ -32,19 +32,24 @@ export default async function handler(req, res) {
           Authorization: `Bearer ${process.env.AIRTABLE_TOKEN}`,
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          fields: {
-            Klubbtyp: klubbtyp || "",
-            Fattning: fattning || "",
-            Gender: gender || "",
-            Nivå: niva || "",
-            Spel: spel || "",
-            Flex: Array.isArray(flex) ? flex.join(", ") : "",
-            "Hade träffar": !!hadResults,
-            Källa: "Fitting tool",
-            Datum: new Date().toISOString()
-          }
-        })
+        
+      body: JSON.stringify({
+  records: [
+    {
+      fields: {
+        Klubbtyp: klubbtyp || "",
+        Fattning: fattning || "",
+        Gender: gender || "",
+        Nivå: niva || "",
+        Spel: spel || "",
+        Flex: Array.isArray(flex) ? flex.join(", ") : "",
+        "Hade träffar": !!hadResults,
+        Källa: "Fitting tool"
+      }
+    }
+  ]
+})
+
       }
     );
 
