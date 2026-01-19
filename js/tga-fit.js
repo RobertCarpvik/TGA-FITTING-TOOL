@@ -185,7 +185,7 @@ const BASE_COLLECTION = "/collections/golfklubbor";
 
   function redirectToResults(){
     
-    fetch("https://tga-fitting-tool.vercel.app/api/log-search.js", {
+    fetch("https://tga-fitting-tool.vercel.app/api/log-search", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
