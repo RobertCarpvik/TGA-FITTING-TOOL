@@ -66,6 +66,7 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   margin: 0 0 12px;
+   color: var(--tga-dark);
 }
 
 @media (max-width: 900px) {
