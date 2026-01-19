@@ -66,18 +66,10 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   margin: 0 0 12px;
-   color: var(--tga-light);
+   color: var(--tga-light) !important;
 }
 
-.tga-fit.h2 {
-  font-family: "Montserrat", system-ui, sans-serif;
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  margin: 0 0 12px;
-   color: var(--tga-light);
-}
+
 
 @media (max-width: 900px) {
   .tga-fit__title {
