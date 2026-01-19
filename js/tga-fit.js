@@ -184,7 +184,6 @@ const BASE_COLLECTION = "/collections/golfklubbor";
   }
 
   function redirectToResults(){
-  console.log("🚀 redirectToResults CALLED");
 
   fetch("https://tga-fitting-tool.vercel.app/api/log-search", {
     method: "POST",
@@ -200,11 +199,8 @@ const BASE_COLLECTION = "/collections/golfklubbor";
     })
   })
   .then(res => {
-    console.log("📡 fetch response status:", res.status);
-    return res.text();
   })
-  .then(txt => console.log("📦 fetch response body:", txt))
-  .catch(err => console.error("❌ fetch error:", err));
+
 
   // kommentera bort redirect tillfälligt
   // window.location.href = buildUrl();
