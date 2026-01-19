@@ -2,7 +2,7 @@
 console.log("TGA FIT JS LOADED NOW");
 
 
-
+/*
 function isCombinationValid() {
   if (!AVAILABLE.klubbtyp.includes(values.klubbtyp)) return false;
   if (!AVAILABLE.fattning.includes(values.fattning)) return false;
@@ -18,6 +18,7 @@ function isCombinationValid() {
 
   return true;
 }
+*/
 
 /*
 function buildTestUrl(testKey, testValue) {
@@ -236,6 +237,7 @@ window.setGender = setGender;
 window.setNiva = setNiva;
 window.setSwing = setSwing;
 window.restart = restart;
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
