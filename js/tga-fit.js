@@ -214,7 +214,7 @@ const BASE_COLLECTION = "/collections/golfklubbor";
  /* window.location.href = buildUrl(); */
     window.location.href = buildUrl() + '#main-collection-filters';
 
-}
+  }
 
 
 
