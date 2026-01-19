@@ -13,7 +13,7 @@
 
 /* ---------- Base ---------- */
 .tga-fit {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 48px 40px 56px;
   background: var(--tga-dark);
