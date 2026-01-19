@@ -54,10 +54,10 @@ export default async function handler(req, res) {
     );
 
     if (!response.ok) {
-      const err = await response.json();
-      console.error("❌ Airtable error:", err);
-      return res.status(500).json({ error: "Airtable write failed" });
-    }
+  const errText = await response.text();
+  console.error("❌ Airtable error response:", errText);
+  return res.status(500).json({ error: errText });
+}
 
     return res.status(200).json({ success: true });
   } catch (err) {
