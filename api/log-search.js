@@ -22,36 +22,33 @@ export default async function handler(req, res) {
       hadResults
     } = body;
 
-    const response = await fetch(
-      `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}/${encodeURIComponent(
-        process.env.AIRTABLE_FITTING_TABLE
-      )}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${process.env.AIRTABLE_TOKEN}`,
-          "Content-Type": "application/json"
-        },
-        
-      body: JSON.stringify({
-  records: [
-    {
-      fields: {
-        Klubbtyp: klubbtyp || "",
-        Fattning: fattning || "",
-        Gender: gender || "",
-        Nivå: niva || "",
-        Spel: spel || "",
-        Flex: Array.isArray(flex) ? flex.join(", ") : "",
-        "Hade träffar": !!hadResults,
-        Källa: "Fitting tool"
-      }
-    }
-  ]
-})
+  const response = await fetch(
+  "https://api.airtable.com/v0/appaSPueQNuWs1otE/tblcRAosLM7bYI7dl",
+  {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.AIRTABLE_TOKEN}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      records: [
+        {
+          fields: {
+            Klubbtyp: klubbtyp || "",
+            Fattning: fattning || "",
+            Gender: gender || "",
+            Nivå: niva || "",
+            Spel: spel || "",
+            Flex: Array.isArray(flex) ? flex.join(", ") : "",
+            "Hade träffar": !!hadResults,
+            Källa: "Fitting tool"
+          }
+        }
+      ]
+    })
+  }
+);
 
-      }
-    );
 
     if (!response.ok) {
   const errText = await response.text();
