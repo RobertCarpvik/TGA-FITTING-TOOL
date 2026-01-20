@@ -212,7 +212,7 @@ const BASE_COLLECTION = "/collections/golfklubbor";
 
   // 🔹 Redirect direkt
  /* window.location.href = buildUrl(); */
-    window.location.href = buildUrl() + 'div.banner__content';
+    window.location.href = buildUrl() + '#main-collection-filters';
 
   }
 
