@@ -181,7 +181,7 @@ function redirectToResults(){
     }).catch(() => {});
   }
 
-  window.location.href = buildUrl() + ".sectiontemplate";
+  window.location.href = buildUrl() + ".section-template";
 }
 
 // ----------------------------
