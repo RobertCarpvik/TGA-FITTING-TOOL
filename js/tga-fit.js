@@ -27,7 +27,7 @@ const CLUB_RULES = {
 // SVING → FLEX (förenklad modell)
 // ----------------------------
 const SWING_TO_FLEX = {
-  "Dam":   ["Ladies"],
+  "Dam":   ["Lady"],
   "Låg":   ["Senior"],
   "Medel": ["Regular"],
   "Hög":   ["Stiff", "X-stiff"]
