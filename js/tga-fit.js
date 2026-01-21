@@ -181,7 +181,7 @@ function redirectToResults(){
     }).catch(() => {});
   }
 
-  window.location.href = buildUrl() + "div.section-template";
+  window.location.href = buildUrl() + "product-grid";
 }
 
 // ----------------------------
