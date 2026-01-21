@@ -1,6 +1,45 @@
 // ====== Shopify routing/filters (verified from your URLs) ======
 console.log("TGA FIT JS LOADED RIGHT NOW");
 
+const CLUB_RULES = {
+  Putter: {
+    hasSpel: false,
+    hasSwing: false
+  },
+  Driver: {
+    hasSpel: true,
+    hasSwing: true
+  },
+  Järn: {
+    hasSpel: true,
+    hasSwing: true
+  },
+  Wedge: {
+    hasSpel: true,
+    hasSwing: false
+  }
+};
+
+function showStep(n){
+  document.querySelectorAll(".tga-step").forEach(el =>
+    el.classList.add("hidden")
+  );
+
+  // Dölj spel/swing-steg om de inte ska användas
+  if (values._skipSpel) {
+    document.querySelector('[data-step="5"]')?.classList.add("hidden");
+  }
+  if (values._skipSwing) {
+    document.querySelector('[data-step="6"]')?.classList.add("hidden");
+  }
+
+  const el = document.querySelector(`.tga-step[data-step="${n}"]`);
+  if (el) el.classList.remove("hidden");
+
+  currentStep = n;
+  updateSummary();
+}
+
 
 /*
 function isCombinationValid() {
@@ -135,17 +174,45 @@ const BASE_COLLECTION = "/collections/golfklubbor";
     showStep(1);
   }
 
-  function setValue(key, value){
-    values[key] = value;
-
-    // Om vi precis satte spel och kunden är Dam -> redirect direkt (hoppa flex)
-    if (key === "spel" && values.gender === "Dam") {
-      redirectToResults();
-      return;
-    }
-
-    showStep(currentStep + 1);
+const SWING_TO_FLEX = {
+  Herr: {
+    "Låg":   ["Senior"],
+    "Medel": ["Regular"],
+    "Hög":   ["Stiff", "X-stiff"]
+  },
+  Dam: {
+    "Låg":   ["Ladies"],
+    "Medel": ["Ladies", "Senior"],
+    "Hög":   ["Regular"]
   }
+};
+
+
+function setValue(key, value){
+  values[key] = value;
+
+  // Om klubbtyp valdes → avgör vilka steg som ska hoppas över
+  if (key === "klubbtyp") {
+    const rules = CLUB_RULES[value] || {};
+
+    values._skipSpel  = rules.hasSpel === false;
+    values._skipSwing = rules.hasSwing === false;
+  }
+
+  // Hoppa över spelkvalitet om ej relevant
+  if (key === "niva" && values._skipSpel) {
+    showStep(currentStep + 2); // hoppa spel
+    return;
+  }
+
+  // Hoppa direkt till resultat om sving ej relevant
+  if (key === "spel" && values._skipSwing) {
+    redirectToResults();
+    return;
+  }
+
+  showStep(currentStep + 1);
+}
 
   function setGender(g){
     values.gender = g;
@@ -157,10 +224,14 @@ const BASE_COLLECTION = "/collections/golfklubbor";
     showStep(currentStep + 1);
   }
 
-  function setSwing(speed){
-    values.flexList = SWING_TO_FLEX_HERR[speed] || ["Regular"];
-    redirectToResults();
-  }
+ function setSwing(speed){
+  const gender = values.gender || "Herr";
+
+  values.flexList =
+    SWING_TO_FLEX[gender]?.[speed] || [];
+
+  redirectToResults();
+}
 
   function buildUrl(){
     const p = new URLSearchParams();
@@ -212,7 +283,7 @@ const BASE_COLLECTION = "/collections/golfklubbor";
 
   // 🔹 Redirect direkt
  /* window.location.href = buildUrl(); */
-    window.location.href = buildUrl() + '#main-collection-filters';
+    window.location.href = buildUrl() + '.sectiontemplate';
 
   }
 
