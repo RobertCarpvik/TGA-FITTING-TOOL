@@ -181,7 +181,7 @@ function redirectToResults(){
     }).catch(() => {});
   }
 
-  window.location.href = buildUrl() + "product-grid";
+  window.location.href = buildUrl() + "#main-collection-filters";
 }
 
 // ----------------------------
